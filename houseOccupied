@@ -1,0 +1,336 @@
+[
+    {
+        "id": "83d6854e713561fe",
+        "type": "tab",
+        "label": "nestOccupied",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "bff43539b41647cb",
+        "type": "function",
+        "z": "83d6854e713561fe",
+        "name": "nestOccupied",
+        "func": "var DavidHomeOut = flow.get(\"DavidHomeOut\");\nvar SaraHomeOut = flow.get(\"SaraHomeOut\");\nvar nestOccupied = flow.get(\"nestOccupied\");\n\n//if (DavidHomeOut === 'home' && SaraHomeOut === 'home') {\n//    flow.set(\"nestOccupied\", true);\n//    msg.payload = true\n//    return msg;\n//}\n//else {\n//    flow.set(\"nestOccupied\", false);\n//    msg.payload = false\n//    return msg;\n//}\n\nif (DavidHomeOut === 'not_home' && SaraHomeOut === 'not_home') {\n    flow.set(\"nestOccupied\", false);\n    msg.payload = false\n    return msg;\n}\nelse {\n    flow.set(\"nestOccupied\", true);\n    msg.payload = true\n    return msg;\n    }",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 160,
+        "wires": [
+            [
+                "cb3f2b9f7c400422"
+            ]
+        ]
+    },
+    {
+        "id": "587d471bbfbcbb1c",
+        "type": "server-state-changed",
+        "z": "83d6854e713561fe",
+        "name": "David",
+        "server": "315411fb.df557e",
+        "version": 4,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "device_tracker.david_brenchley",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": false,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "863d8d3fe153f206"
+            ]
+        ]
+    },
+    {
+        "id": "d31432a6d9375698",
+        "type": "server-state-changed",
+        "z": "83d6854e713561fe",
+        "name": "Sara",
+        "server": "315411fb.df557e",
+        "version": 4,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "device_tracker.sara",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": false,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 170,
+        "y": 200,
+        "wires": [
+            [
+                "abe9188855d511f3"
+            ]
+        ]
+    },
+    {
+        "id": "863d8d3fe153f206",
+        "type": "function",
+        "z": "83d6854e713561fe",
+        "name": "DavidHomeOut",
+        "func": "flow.set(\"DavidHomeOut\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 120,
+        "wires": [
+            [
+                "bff43539b41647cb"
+            ]
+        ]
+    },
+    {
+        "id": "abe9188855d511f3",
+        "type": "function",
+        "z": "83d6854e713561fe",
+        "name": "SaraHomeOut",
+        "func": "flow.set(\"SaraHomeOut\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 200,
+        "wires": [
+            [
+                "bff43539b41647cb"
+            ]
+        ]
+    },
+    {
+        "id": "5f5fea87091244e5",
+        "type": "api-call-service",
+        "z": "83d6854e713561fe",
+        "name": "nestOccupied",
+        "server": "315411fb.df557e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "input_boolean.nestoccupied"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 920,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "46f708ab56dec9b5",
+        "type": "api-call-service",
+        "z": "83d6854e713561fe",
+        "name": "nestNotOccupied",
+        "server": "315411fb.df557e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "input_boolean.nestoccupied"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 930,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cb3f2b9f7c400422",
+        "type": "switch",
+        "z": "83d6854e713561fe",
+        "name": "OccupiedSwitch",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 700,
+        "y": 160,
+        "wires": [
+            [
+                "5f5fea87091244e5"
+            ],
+            [
+                "46f708ab56dec9b5",
+                "0518aff119c732a7"
+            ]
+        ]
+    },
+    {
+        "id": "0518aff119c732a7",
+        "type": "api-call-service",
+        "z": "83d6854e713561fe",
+        "name": "AllLightsOff",
+        "server": "315411fb.df557e",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "areaId": [
+            "d4af0bed8260410c8ecd626cc22ad5b3",
+            "e544b42b07784d82a599e26e7da7efd1",
+            "fa1dab8d9d1b4f678e712e0bb8707cb7",
+            "d76acbcda1b94c12a1db34490960a392",
+            "21fbd643dba34ef8a8aeda397de0c4e2",
+            "b8938b9af5d04afbbe047ee99af8e7aa",
+            "b1e06898fec64e26961840069a00d509",
+            "61931a230ba14361905d74ec623945fe",
+            "6bdeea83d385477aa96601510bc91887"
+        ],
+        "deviceId": [],
+        "entityId": [
+            "light.chandelier_lights",
+            "light.coffytable_lights",
+            "light.dining_room_lights",
+            "light.front_lights",
+            "light.garage_lights",
+            "light.garden_lights",
+            "media_player.kitchen",
+            "light.landing_lights",
+            "light.master_bedroom_ceiling_light",
+            "light.office_lights",
+            "light.snug_lights",
+            "automation.notify_home"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 910,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "315411fb.df557e",
+        "type": "server",
+        "name": "Home Assistant",
+        "version": 5,
+        "addon": true,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true,
+        "heartbeat": false,
+        "heartbeatInterval": 30,
+        "areaSelector": "friendlyName",
+        "deviceSelector": "friendlyName",
+        "entitySelector": "friendlyName",
+        "statusSeparator": "at: ",
+        "statusYear": "hidden",
+        "statusMonth": "short",
+        "statusDay": "numeric",
+        "statusHourCycle": "h23",
+        "statusTimeFormat": "h:m",
+        "enableGlobalContextStore": true
+    }
+]
