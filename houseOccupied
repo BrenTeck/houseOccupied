@@ -1,6 +1,6 @@
 [
     {
-        "id": "83d6854e713561fe",
+        "id": "4a8d03992253c739",
         "type": "tab",
         "label": "nestOccupied",
         "disabled": false,
@@ -8,51 +8,47 @@
         "env": []
     },
     {
-        "id": "bff43539b41647cb",
+        "id": "22247b8fa65a3cb2",
         "type": "function",
-        "z": "83d6854e713561fe",
+        "z": "4a8d03992253c739",
         "name": "nestOccupied",
-        "func": "var DavidHomeOut = flow.get(\"DavidHomeOut\");\nvar SaraHomeOut = flow.get(\"SaraHomeOut\");\nvar nestOccupied = flow.get(\"nestOccupied\");\n\n//if (DavidHomeOut === 'home' && SaraHomeOut === 'home') {\n//    flow.set(\"nestOccupied\", true);\n//    msg.payload = true\n//    return msg;\n//}\n//else {\n//    flow.set(\"nestOccupied\", false);\n//    msg.payload = false\n//    return msg;\n//}\n\nif (DavidHomeOut === 'not_home' && SaraHomeOut === 'not_home') {\n    flow.set(\"nestOccupied\", false);\n    msg.payload = false\n    return msg;\n}\nelse {\n    flow.set(\"nestOccupied\", true);\n    msg.payload = true\n    return msg;\n    }",
+        "func": "var DavidHomeOut = flow.get(\"DavidHomeOut\");\nvar SaraHomeOut = flow.get(\"SaraHomeOut\");\nvar nestOccupied = flow.get(\"nestOccupied\");\nvar vacationMode = flow.get(\"vacationMode\");\nvar holidayMode = flow.get(\"holidayMode\");\nvar sun = flow.get(\"sun\");\nvar timeNow = flow.get(\"time\");\n\nif (DavidHomeOut === 'not_home' && SaraHomeOut === 'not_home') {\n    flow.set(\"nestOccupied\", false);\n    if (vacationMode === 'on'){\n        if (sun === \"below_horizon\" && timeNow >= '17' && timeNow <= '22') {\n            msg.payload = \"vacationLightsOn\"\n            return msg;\n        } \n        else {\n            msg.payload = \"vacationLightsOff\"\n            return msg;\n        }\n    }\n    else if (holidayMode === 'on'){\n        if (sun === \"below_horizon\" && timeNow >= '17' && timeNow <= '22') {\n            msg.payload = \"holidayLightsOn\"\n            return msg;\n        } \n        else {\n            msg.payload = \"holidayLightsOff\"\n            return msg;\n        }\n    }\n    else if (vacationMode === 'off' && holidayMode === 'off') {\n        msg.payload = \"NotOccupied\"\n        return msg;\n    }\n}\nelse {\n    flow.set(\"nestOccupied\", true);\n    msg.payload = \"Occupied\"\n    return msg;\n}",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 520,
-        "y": 160,
+        "x": 640,
+        "y": 220,
         "wires": [
             [
-                "cb3f2b9f7c400422"
+                "0bec9dc07893ef61"
             ]
         ]
     },
     {
-        "id": "587d471bbfbcbb1c",
+        "id": "14c8844d3bfb9e26",
         "type": "server-state-changed",
-        "z": "83d6854e713561fe",
+        "z": "4a8d03992253c739",
         "name": "David",
         "server": "315411fb.df557e",
-        "version": 4,
-        "exposeToHomeAssistant": false,
-        "haConfig": [
-            {
-                "property": "name",
-                "value": ""
-            },
-            {
-                "property": "icon",
-                "value": ""
-            }
-        ],
-        "entityidfilter": "device_tracker.david_brenchley",
-        "entityidfiltertype": "exact",
-        "outputinitially": true,
-        "state_type": "str",
-        "haltifstate": "",
-        "halt_if_type": "str",
-        "halt_if_compare": "is",
+        "version": 6,
         "outputs": 1,
-        "output_only_on_state_change": false,
+        "exposeAsEntityConfig": "",
+        "entities": {
+            "entity": [
+                "device_tracker.david_magic_v3"
+            ],
+            "substring": [],
+            "regex": []
+        },
+        "outputInitially": true,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": false,
         "for": "0",
         "forType": "num",
         "forUnits": "minutes",
@@ -81,41 +77,36 @@
                 "valueType": "triggerId"
             }
         ],
-        "x": 170,
-        "y": 120,
+        "x": 110,
+        "y": 100,
         "wires": [
             [
-                "863d8d3fe153f206"
+                "6eda7ba24c41e815"
             ]
         ]
     },
     {
-        "id": "d31432a6d9375698",
+        "id": "16a047b79ba16809",
         "type": "server-state-changed",
-        "z": "83d6854e713561fe",
+        "z": "4a8d03992253c739",
         "name": "Sara",
         "server": "315411fb.df557e",
-        "version": 4,
-        "exposeToHomeAssistant": false,
-        "haConfig": [
-            {
-                "property": "name",
-                "value": ""
-            },
-            {
-                "property": "icon",
-                "value": ""
-            }
-        ],
-        "entityidfilter": "device_tracker.sara",
-        "entityidfiltertype": "exact",
-        "outputinitially": true,
-        "state_type": "str",
-        "haltifstate": "",
-        "halt_if_type": "str",
-        "halt_if_compare": "is",
+        "version": 6,
         "outputs": 1,
-        "output_only_on_state_change": false,
+        "exposeAsEntityConfig": "",
+        "entities": {
+            "entity": [
+                "device_tracker.sara_magic_v3"
+            ],
+            "substring": [],
+            "regex": []
+        },
+        "outputInitially": true,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": false,
         "for": "0",
         "forType": "num",
         "forUnits": "minutes",
@@ -132,18 +123,18 @@
                 "valueType": "entityState"
             }
         ],
-        "x": 170,
-        "y": 200,
+        "x": 110,
+        "y": 240,
         "wires": [
             [
-                "abe9188855d511f3"
+                "d70ce9aac15b57bf"
             ]
         ]
     },
     {
-        "id": "863d8d3fe153f206",
+        "id": "6eda7ba24c41e815",
         "type": "function",
-        "z": "83d6854e713561fe",
+        "z": "4a8d03992253c739",
         "name": "DavidHomeOut",
         "func": "flow.set(\"DavidHomeOut\", msg.payload);\nreturn msg;",
         "outputs": 1,
@@ -151,18 +142,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 320,
-        "y": 120,
+        "x": 420,
+        "y": 140,
         "wires": [
             [
-                "bff43539b41647cb"
+                "22247b8fa65a3cb2"
             ]
         ]
     },
     {
-        "id": "abe9188855d511f3",
+        "id": "d70ce9aac15b57bf",
         "type": "function",
-        "z": "83d6854e713561fe",
+        "z": "4a8d03992253c739",
         "name": "SaraHomeOut",
         "func": "flow.set(\"SaraHomeOut\", msg.payload);\nreturn msg;",
         "outputs": 1,
@@ -170,114 +161,137 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 320,
-        "y": 200,
+        "x": 420,
+        "y": 220,
         "wires": [
             [
-                "bff43539b41647cb"
+                "22247b8fa65a3cb2"
             ]
         ]
     },
     {
-        "id": "5f5fea87091244e5",
+        "id": "2538c8dccb1c80a2",
         "type": "api-call-service",
-        "z": "83d6854e713561fe",
+        "z": "4a8d03992253c739",
         "name": "nestOccupied",
         "server": "315411fb.df557e",
-        "version": 5,
+        "version": 7,
         "debugenabled": false,
+        "action": "homeassistant.turn_on",
+        "floorId": [],
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "input_boolean.nestoccupied"
+        ],
+        "labelId": [],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "blockInputOverrides": false,
         "domain": "homeassistant",
         "service": "turn_on",
-        "areaId": [],
-        "deviceId": [],
-        "entityId": [
-            "input_boolean.nestoccupied"
-        ],
-        "data": "",
-        "dataType": "jsonata",
-        "mergeContext": "",
-        "mustacheAltTags": false,
-        "outputProperties": [],
-        "queue": "none",
-        "x": 920,
-        "y": 120,
+        "x": 1120,
+        "y": 80,
         "wires": [
-            []
+            [
+                "aa3b295b32669e5c"
+            ]
         ]
     },
     {
-        "id": "46f708ab56dec9b5",
-        "type": "api-call-service",
-        "z": "83d6854e713561fe",
-        "name": "nestNotOccupied",
-        "server": "315411fb.df557e",
-        "version": 5,
-        "debugenabled": false,
-        "domain": "homeassistant",
-        "service": "turn_off",
-        "areaId": [],
-        "deviceId": [],
-        "entityId": [
-            "input_boolean.nestoccupied"
-        ],
-        "data": "",
-        "dataType": "jsonata",
-        "mergeContext": "",
-        "mustacheAltTags": false,
-        "outputProperties": [],
-        "queue": "none",
-        "x": 930,
-        "y": 200,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "cb3f2b9f7c400422",
+        "id": "0bec9dc07893ef61",
         "type": "switch",
-        "z": "83d6854e713561fe",
+        "z": "4a8d03992253c739",
         "name": "OccupiedSwitch",
         "property": "payload",
         "propertyType": "msg",
         "rules": [
             {
-                "t": "true"
+                "t": "eq",
+                "v": "Occupied",
+                "vt": "str"
             },
             {
-                "t": "false"
+                "t": "neq",
+                "v": "Occupied",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "NotOccupied",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "vacationLightsOn",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "vacationLightsOff",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "holidayLightsOn",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "holidayLightsOff",
+                "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 2,
-        "x": 700,
-        "y": 160,
+        "outputs": 7,
+        "x": 840,
+        "y": 220,
         "wires": [
             [
-                "5f5fea87091244e5"
+                "2538c8dccb1c80a2"
             ],
             [
-                "46f708ab56dec9b5",
-                "0518aff119c732a7"
+                "f4db251b989237e7"
+            ],
+            [
+                "e7bbde987ccb1eec"
+            ],
+            [
+                "e47cb30b6c025bf3"
+            ],
+            [
+                "ab8770b0c6757968"
+            ],
+            [
+                "1ba65b53465c5dfb"
+            ],
+            [
+                "f5fbc1479c4a0771"
             ]
         ]
     },
     {
-        "id": "0518aff119c732a7",
+        "id": "38c42382c2659b43",
         "type": "api-call-service",
-        "z": "83d6854e713561fe",
+        "z": "4a8d03992253c739",
         "name": "AllLightsOff",
         "server": "315411fb.df557e",
-        "version": 5,
+        "version": 7,
         "debugenabled": false,
-        "domain": "homeassistant",
-        "service": "turn_off",
+        "action": "homeassistant.turn_off",
+        "floorId": [],
         "areaId": [
             "d4af0bed8260410c8ecd626cc22ad5b3",
             "e544b42b07784d82a599e26e7da7efd1",
             "fa1dab8d9d1b4f678e712e0bb8707cb7",
             "d76acbcda1b94c12a1db34490960a392",
             "21fbd643dba34ef8a8aeda397de0c4e2",
+            "landing_stairs",
             "b8938b9af5d04afbbe047ee99af8e7aa",
             "b1e06898fec64e26961840069a00d509",
             "61931a230ba14361905d74ec623945fe",
@@ -295,19 +309,1152 @@
             "light.landing_lights",
             "light.master_bedroom_ceiling_light",
             "light.office_lights",
-            "light.snug_lights",
-            "automation.notify_home"
+            "light.snug_lights"
         ],
+        "labelId": [],
         "data": "",
         "dataType": "json",
         "mergeContext": "",
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 910,
+        "blockInputOverrides": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "x": 1470,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "31c9d6ced5f3da44",
+        "type": "function",
+        "z": "4a8d03992253c739",
+        "name": "vacationMode",
+        "func": "flow.set(\"vacationMode\",msg.payload);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 280,
+        "wires": [
+            [
+                "22247b8fa65a3cb2"
+            ]
+        ]
+    },
+    {
+        "id": "adad0c3e51cf55f8",
+        "type": "server-state-changed",
+        "z": "4a8d03992253c739",
+        "name": "vacationMode",
+        "server": "315411fb.df557e",
+        "version": 6,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entities": {
+            "entity": [
+                "input_boolean.vacationmode"
+            ],
+            "substring": [],
+            "regex": []
+        },
+        "outputInitially": true,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": false,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 250,
+        "y": 280,
+        "wires": [
+            [
+                "31c9d6ced5f3da44"
+            ]
+        ]
+    },
+    {
+        "id": "ed9838334837f25b",
+        "type": "server-state-changed",
+        "z": "4a8d03992253c739",
+        "name": "Sun",
+        "server": "315411fb.df557e",
+        "version": 6,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entities": {
+            "entity": [
+                "sun.sun"
+            ],
+            "substring": [],
+            "regex": []
+        },
+        "outputInitially": true,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": false,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 270,
+        "y": 440,
+        "wires": [
+            [
+                "a6c61bac13aee28d"
+            ]
+        ]
+    },
+    {
+        "id": "a6c61bac13aee28d",
+        "type": "function",
+        "z": "4a8d03992253c739",
+        "name": "sun",
+        "func": "flow.set(\"sun\",msg.payload);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 440,
+        "wires": [
+            [
+                "22247b8fa65a3cb2"
+            ]
+        ]
+    },
+    {
+        "id": "2ed83fd05ef10064",
+        "type": "delay",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "15",
+        "randomUnits": "minutes",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1300,
+        "y": 320,
+        "wires": [
+            [
+                "38c42382c2659b43",
+                "ab8770b0c6757968"
+            ]
+        ]
+    },
+    {
+        "id": "59e83aba4a10ee6e",
+        "type": "function",
+        "z": "4a8d03992253c739",
+        "name": "holidayMode",
+        "func": "flow.set(\"holidayMode\",msg.payload);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 340,
+        "wires": [
+            [
+                "22247b8fa65a3cb2"
+            ]
+        ]
+    },
+    {
+        "id": "8d8d456714994d0c",
+        "type": "server-state-changed",
+        "z": "4a8d03992253c739",
+        "name": "holidayMode",
+        "server": "315411fb.df557e",
+        "version": 6,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entities": {
+            "entity": [
+                "input_boolean.holidaymode"
+            ],
+            "substring": [],
+            "regex": []
+        },
+        "outputInitially": true,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": false,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 270,
+        "y": 340,
+        "wires": [
+            [
+                "59e83aba4a10ee6e"
+            ]
+        ]
+    },
+    {
+        "id": "f4db251b989237e7",
+        "type": "api-call-service",
+        "z": "4a8d03992253c739",
+        "name": "nestNotOccupied",
+        "server": "315411fb.df557e",
+        "version": 7,
+        "debugenabled": false,
+        "action": "homeassistant.turn_off",
+        "floorId": [],
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "input_boolean.nestoccupied"
+        ],
+        "labelId": [],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "blockInputOverrides": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "x": 1130,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "12ae88bcd3c04e5e",
+        "type": "function",
+        "z": "4a8d03992253c739",
+        "name": "time",
+        "func": "flow.set(\"time\", Number(msg.payload));\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 600,
+        "wires": [
+            [
+                "22247b8fa65a3cb2"
+            ]
+        ]
+    },
+    {
+        "id": "00cf85d0e6e95a8c",
+        "type": "moment",
+        "z": "4a8d03992253c739",
+        "name": "Time",
+        "topic": "",
+        "input": "",
+        "inputType": "msg",
+        "inTz": "Europe/London",
+        "adjAmount": 0,
+        "adjType": "days",
+        "adjDir": "add",
+        "format": "HH",
+        "locale": "C",
+        "output": "",
+        "outputType": "msg",
+        "outTz": "Europe/London",
+        "x": 310,
+        "y": 600,
+        "wires": [
+            [
+                "12ae88bcd3c04e5e"
+            ]
+        ]
+    },
+    {
+        "id": "e47cb30b6c025bf3",
+        "type": "api-call-service",
+        "z": "4a8d03992253c739",
+        "name": "VacationLightsOn",
+        "server": "315411fb.df557e",
+        "version": 7,
+        "debugenabled": false,
+        "action": "homeassistant.turn_on",
+        "floorId": [],
+        "areaId": [],
+        "deviceId": [
+            "967eee7501d07ede841e3388b475a89f"
+        ],
+        "entityId": [
+            "light.master_bedroom_ceiling_light",
+            "light.light_strip_295a"
+        ],
+        "labelId": [],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "blockInputOverrides": false,
+        "domain": "homeassistant",
+        "service": "turn_on",
+        "x": 1130,
         "y": 260,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "1ba65b53465c5dfb",
+        "type": "api-call-service",
+        "z": "4a8d03992253c739",
+        "name": "HolidayLightsOn",
+        "server": "315411fb.df557e",
+        "version": 7,
+        "debugenabled": false,
+        "action": "homeassistant.turn_on",
+        "floorId": [],
+        "areaId": [],
+        "deviceId": [
+            "967eee7501d07ede841e3388b475a89f",
+            "0a721d241b84adf39474dee771f500f8",
+            "8bb10482440fb768e822624367bcedff",
+            "ff6c7ef58e46461752d2aadc92e32a1c",
+            "033cb7dac20cb33a064ada6040a9793e",
+            "69937681a73ee3d8fcdd1fd092fdb500"
+        ],
+        "entityId": [],
+        "labelId": [],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "blockInputOverrides": false,
+        "domain": "homeassistant",
+        "service": "turn_on",
+        "x": 1120,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7418b8d00fc0a931",
+        "type": "api-call-service",
+        "z": "4a8d03992253c739",
+        "name": "AllLightsOff",
+        "server": "315411fb.df557e",
+        "version": 7,
+        "debugenabled": false,
+        "action": "homeassistant.turn_off",
+        "floorId": [],
+        "areaId": [
+            "d4af0bed8260410c8ecd626cc22ad5b3",
+            "fa1dab8d9d1b4f678e712e0bb8707cb7",
+            "d76acbcda1b94c12a1db34490960a392",
+            "21fbd643dba34ef8a8aeda397de0c4e2",
+            "b8938b9af5d04afbbe047ee99af8e7aa",
+            "b1e06898fec64e26961840069a00d509",
+            "61931a230ba14361905d74ec623945fe",
+            "6bdeea83d385477aa96601510bc91887"
+        ],
+        "deviceId": [
+            "8bb10482440fb768e822624367bcedff",
+            "ff6c7ef58e46461752d2aadc92e32a1c",
+            "033cb7dac20cb33a064ada6040a9793e"
+        ],
+        "entityId": [
+            "light.chandelier_lights",
+            "light.coffytable_lights",
+            "light.dining_room_lights",
+            "light.front_lights",
+            "light.garage_lights",
+            "light.garden_lights",
+            "media_player.kitchen",
+            "light.landing_lights",
+            "light.master_bedroom_ceiling_light",
+            "light.office_lights",
+            "light.snug_lights"
+        ],
+        "labelId": [],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "blockInputOverrides": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "x": 1470,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "326cbb4e9b8eedfc",
+        "type": "delay",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "15",
+        "randomUnits": "minutes",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1300,
+        "y": 440,
+        "wires": [
+            [
+                "7418b8d00fc0a931",
+                "f5fbc1479c4a0771"
+            ]
+        ]
+    },
+    {
+        "id": "f58f5754db20b974",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 600,
+        "wires": [
+            [
+                "00cf85d0e6e95a8c"
+            ]
+        ]
+    },
+    {
+        "id": "4983609cddd6c619",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "not_home",
+        "payloadType": "str",
+        "x": 100,
+        "y": 200,
+        "wires": [
+            [
+                "6eda7ba24c41e815",
+                "d70ce9aac15b57bf"
+            ]
+        ]
+    },
+    {
+        "id": "541319d851561ccd",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "home",
+        "payloadType": "str",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "6eda7ba24c41e815",
+                "d70ce9aac15b57bf"
+            ]
+        ]
+    },
+    {
+        "id": "f5fbc1479c4a0771",
+        "type": "trigger",
+        "z": "4a8d03992253c739",
+        "name": "HolidayOffOnce",
+        "op1": "reset",
+        "op2": "false",
+        "op1type": "str",
+        "op2type": "bool",
+        "duration": "0",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "reset",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1120,
+        "y": 440,
+        "wires": [
+            [
+                "326cbb4e9b8eedfc"
+            ]
+        ]
+    },
+    {
+        "id": "ab8770b0c6757968",
+        "type": "trigger",
+        "z": "4a8d03992253c739",
+        "name": "VacationOffOnce",
+        "op1": "reset",
+        "op2": "false",
+        "op1type": "str",
+        "op2type": "bool",
+        "duration": "0",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "reset",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1130,
+        "y": 320,
+        "wires": [
+            [
+                "2ed83fd05ef10064"
+            ]
+        ]
+    },
+    {
+        "id": "022682fb790ad9d7",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "time>=9",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "9",
+        "payloadType": "num",
+        "x": 140,
+        "y": 680,
+        "wires": [
+            [
+                "12ae88bcd3c04e5e"
+            ]
+        ]
+    },
+    {
+        "id": "73e6ec846376cde5",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "time>=18",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "18",
+        "payloadType": "num",
+        "x": 140,
+        "y": 640,
+        "wires": [
+            [
+                "12ae88bcd3c04e5e"
+            ]
+        ]
+    },
+    {
+        "id": "0a63e17748f142d5",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "time>=23",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "23",
+        "payloadType": "num",
+        "x": 140,
+        "y": 560,
+        "wires": [
+            [
+                "12ae88bcd3c04e5e"
+            ]
+        ]
+    },
+    {
+        "id": "bd27f6843fd4ac00",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "time>=22",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "22",
+        "payloadType": "num",
+        "x": 140,
+        "y": 520,
+        "wires": [
+            [
+                "12ae88bcd3c04e5e"
+            ]
+        ]
+    },
+    {
+        "id": "35c549fb0819add8",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "above_horizon",
+        "payloadType": "str",
+        "x": 240,
+        "y": 400,
+        "wires": [
+            [
+                "a6c61bac13aee28d"
+            ]
+        ]
+    },
+    {
+        "id": "a86c80066ff234fd",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "below_horizon",
+        "payloadType": "str",
+        "x": 230,
+        "y": 480,
+        "wires": [
+            [
+                "a6c61bac13aee28d"
+            ]
+        ]
+    },
+    {
+        "id": "a96c258d23674ab1",
+        "type": "delay",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "15",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1320,
+        "y": 520,
+        "wires": [
+            [
+                "8a6c952c1b723608"
+            ]
+        ]
+    },
+    {
+        "id": "8a6c952c1b723608",
+        "type": "trigger",
+        "z": "4a8d03992253c739",
+        "name": "VacationOffOnce",
+        "op1": "reset",
+        "op2": "false",
+        "op1type": "str",
+        "op2type": "bool",
+        "duration": "0",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "reset",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1130,
+        "y": 520,
+        "wires": [
+            [
+                "a96c258d23674ab1"
+            ]
+        ]
+    },
+    {
+        "id": "c740d32fe15ac976",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "reset",
+        "payloadType": "str",
+        "x": 890,
+        "y": 500,
+        "wires": [
+            [
+                "8a6c952c1b723608"
+            ]
+        ]
+    },
+    {
+        "id": "96ca8e282cfcf618",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 880,
+        "y": 540,
+        "wires": [
+            [
+                "8a6c952c1b723608"
+            ]
+        ]
+    },
+    {
+        "id": "aa3b295b32669e5c",
+        "type": "change",
+        "z": "4a8d03992253c739",
+        "name": "reset",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 890,
+        "y": 380,
+        "wires": [
+            [
+                "2ed83fd05ef10064",
+                "326cbb4e9b8eedfc",
+                "ab8770b0c6757968",
+                "f5fbc1479c4a0771"
+            ]
+        ]
+    },
+    {
+        "id": "0acd2624b09050f7",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1340,
+        "y": 240,
+        "wires": [
+            [
+                "38c42382c2659b43"
+            ]
+        ]
+    },
+    {
+        "id": "5cd2f8b4002ec5a7",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 900,
+        "y": 300,
+        "wires": [
+            [
+                "e47cb30b6c025bf3"
+            ]
+        ]
+    },
+    {
+        "id": "e7bbde987ccb1eec",
+        "type": "api-call-service",
+        "z": "4a8d03992253c739",
+        "name": "AllLightsOff",
+        "server": "315411fb.df557e",
+        "version": 7,
+        "debugenabled": false,
+        "action": "homeassistant.turn_off",
+        "floorId": [],
+        "areaId": [
+            "d4af0bed8260410c8ecd626cc22ad5b3",
+            "e544b42b07784d82a599e26e7da7efd1",
+            "fa1dab8d9d1b4f678e712e0bb8707cb7",
+            "d76acbcda1b94c12a1db34490960a392",
+            "21fbd643dba34ef8a8aeda397de0c4e2",
+            "landing_stairs",
+            "b8938b9af5d04afbbe047ee99af8e7aa",
+            "b1e06898fec64e26961840069a00d509",
+            "61931a230ba14361905d74ec623945fe",
+            "6bdeea83d385477aa96601510bc91887"
+        ],
+        "deviceId": [],
+        "entityId": [
+            "light.chandelier_lights",
+            "light.coffytable_lights",
+            "light.dining_room_lights",
+            "light.front_lights",
+            "light.garage_lights",
+            "light.garden_lights",
+            "media_player.kitchen",
+            "light.landing_lights",
+            "light.master_bedroom_ceiling_light",
+            "light.office_lights",
+            "light.snug_lights"
+        ],
+        "labelId": [],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "blockInputOverrides": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "x": 1110,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ea0a6c4f1b61510a",
+        "type": "server-state-changed",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "server": "315411fb.df557e",
+        "version": 6,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entities": {
+            "entity": [
+                "sensor.our_nest_tado_mode"
+            ],
+            "substring": [],
+            "regex": []
+        },
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 1510,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "58ae386b8c65d8ec",
+        "type": "api-call-service",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "server": "315411fb.df557e",
+        "version": 7,
+        "debugenabled": false,
+        "action": "homeassistant.turn_off",
+        "floorId": [],
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "binary_sensor.office_overlay",
+            "binary_sensor.office_power"
+        ],
+        "labelId": [],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "blockInputOverrides": true,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "x": 1560,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "da9d6e4ee0c3f5cf",
+        "type": "inject",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1360,
+        "y": 140,
+        "wires": [
+            [
+                "58ae386b8c65d8ec"
+            ]
         ]
     },
     {
