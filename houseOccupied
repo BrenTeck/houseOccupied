@@ -38,7 +38,7 @@
         "exposeAsEntityConfig": "",
         "entities": {
             "entity": [
-                "device_tracker.david_magic_v3"
+                "person.david"
             ],
             "substring": [],
             "regex": []
@@ -96,7 +96,7 @@
         "exposeAsEntityConfig": "",
         "entities": {
             "entity": [
-                "device_tracker.sara_magic_v3"
+                "person.sara"
             ],
             "substring": [],
             "regex": []
@@ -259,7 +259,7 @@
                 "f4db251b989237e7"
             ],
             [
-                "e7bbde987ccb1eec"
+                "e8d81d97d364a6b0"
             ],
             [
                 "e47cb30b6c025bf3"
@@ -695,7 +695,6 @@
         "floorId": [],
         "areaId": [],
         "deviceId": [
-            "967eee7501d07ede841e3388b475a89f",
             "0a721d241b84adf39474dee771f500f8",
             "8bb10482440fb768e822624367bcedff",
             "ff6c7ef58e46461752d2aadc92e32a1c",
@@ -755,7 +754,8 @@
             "light.landing_lights",
             "light.master_bedroom_ceiling_light",
             "light.office_lights",
-            "light.snug_lights"
+            "light.snug_lights",
+            "light.light_strip_295a"
         ],
         "labelId": [],
         "data": "",
@@ -1117,7 +1117,8 @@
         "y": 520,
         "wires": [
             [
-                "8a6c952c1b723608"
+                "8a6c952c1b723608",
+                "808324d4c18babdd"
             ]
         ]
     },
@@ -1142,7 +1143,9 @@
         "y": 520,
         "wires": [
             [
-                "a96c258d23674ab1"
+                "a96c258d23674ab1",
+                "00e9f6e5b681e51a",
+                "808324d4c18babdd"
             ]
         ]
     },
@@ -1226,7 +1229,8 @@
                 "2ed83fd05ef10064",
                 "326cbb4e9b8eedfc",
                 "ab8770b0c6757968",
-                "f5fbc1479c4a0771"
+                "f5fbc1479c4a0771",
+                "e8d81d97d364a6b0"
             ]
         ]
     },
@@ -1251,8 +1255,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1340,
-        "y": 240,
+        "x": 1320,
+        "y": 260,
         "wires": [
             [
                 "38c42382c2659b43"
@@ -1334,8 +1338,8 @@
         "blockInputOverrides": false,
         "domain": "homeassistant",
         "service": "turn_off",
-        "x": 1110,
-        "y": 200,
+        "x": 1470,
+        "y": 180,
         "wires": [
             []
         ]
@@ -1456,6 +1460,90 @@
                 "58ae386b8c65d8ec"
             ]
         ]
+    },
+    {
+        "id": "e8d81d97d364a6b0",
+        "type": "trigger",
+        "z": "4a8d03992253c739",
+        "name": "AllOffOnce",
+        "op1": "reset",
+        "op2": "false",
+        "op1type": "str",
+        "op2type": "bool",
+        "duration": "0",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "reset",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1110,
+        "y": 200,
+        "wires": [
+            [
+                "a3d4755eb4ea8867",
+                "e7bbde987ccb1eec"
+            ]
+        ]
+    },
+    {
+        "id": "a3d4755eb4ea8867",
+        "type": "delay",
+        "z": "4a8d03992253c739",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "hours",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "15",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1300,
+        "y": 200,
+        "wires": [
+            [
+                "e7bbde987ccb1eec",
+                "e8d81d97d364a6b0"
+            ]
+        ]
+    },
+    {
+        "id": "00e9f6e5b681e51a",
+        "type": "debug",
+        "z": "4a8d03992253c739",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "808324d4c18babdd",
+        "type": "debug",
+        "z": "4a8d03992253c739",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1480,
+        "y": 600,
+        "wires": []
     },
     {
         "id": "315411fb.df557e",
